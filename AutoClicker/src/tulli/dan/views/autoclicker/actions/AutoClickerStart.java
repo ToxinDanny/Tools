@@ -13,9 +13,7 @@ import java.nio.file.Paths;
 import tulli.dan.models.Timer;
 
 public class AutoClickerStart implements ActionListener 
-{	
-	private int delay;
-	
+{		
 	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
@@ -23,7 +21,8 @@ public class AutoClickerStart implements ActionListener
 		
 		try(BufferedReader reader = Files.newBufferedReader(Paths.get("ac_time_delay.txt")))
 		{ 
-			timer.setTime(Integer.parseInt(reader.readLine()));
+			String[] str = reader.readLine().split("#");
+			timer.setTime(Integer.parseInt(str[0]));
 		} catch (IOException e2) {
 			e2.printStackTrace();
 		}
@@ -36,16 +35,15 @@ public class AutoClickerStart implements ActionListener
 			public void run() {
 				synchronized (this) {
 					
-					try 
+					try (BufferedReader reader = Files.newBufferedReader(Paths.get("ac_time_delay.txt")))
 					{
-						BufferedReader reader = Files.newBufferedReader(Paths.get("ac_time_delay.txt"));
-						setDelay(Integer.parseInt(reader.lines().skip(1).iterator().next()));
-						
+						String[] str = reader.readLine().split("#");
+
 						Robot robot = new Robot();
 						while(!timer.isFlag())
 						{
 							robot.mousePress(InputEvent.BUTTON3_MASK);
-							robot.delay(getDelay());
+							robot.delay(Integer.parseInt(str[1]));
 							robot.mouseRelease(InputEvent.BUTTON3_MASK);
 						}
 					
@@ -69,13 +67,5 @@ public class AutoClickerStart implements ActionListener
 			e1.printStackTrace();
 		}
 		
-	}
-
-	public int getDelay() {
-		return delay;
-	}
-
-	public void setDelay(int delay) {
-		this.delay = delay;
 	}
 }
