@@ -44,14 +44,12 @@ public class TimerFrame extends JFrame
 				try(BufferedWriter writer = Files.newBufferedWriter(Paths.get("ac_time_delay.txt"), StandardOpenOption.WRITE))
 				{
 					writer.write(
-						String.valueOf(timerPanel.getTime()) + "\n" +
+						String.valueOf(timerPanel.getTime()) + "#" +
 						String.valueOf(delayPanel.getDelay())
 					);
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}	
-				
-//				System.out.println(timerPanel.getTime() + " " + delayPanel.getDelay());
 			}
 		});
 		add(setTimeDelayButton);
